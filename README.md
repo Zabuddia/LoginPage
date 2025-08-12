@@ -50,9 +50,9 @@ Then `Ctrl+C` to stop.
 
 ```bash
 # Create an admin
-flask --app run.py create-user --email admin@example.com --role admin
+flask --app run.py create-user --username admin@example.com --role admin
 # Create a normal user
-flask --app run.py create-user --email user@example.com --role user
+flask --app run.py create-user --username user@example.com --role user
 ```
 
 ### 5. Start the server
@@ -86,19 +86,19 @@ app/
 
 ```bash
 # Create user
-flask --app run.py create-user --email EMAIL --role [user|admin]
+flask --app run.py create-user --username USERNAME --role [user|admin]
 
 # Delete user
-flask --app run.py delete-user --email EMAIL
+flask --app run.py delete-user --username USERNAME
 
 # List all users
 flask --app run.py list-users
 
 # Change a user's role
-flask --app run.py set-role --email EMAIL --role [user|admin]
+flask --app run.py set-role --username USERNAME --role [user|admin]
 
 # Reset a user's password
-flask --app run.py set-password --email EMAIL
+flask --app run.py set-password --username USERNAME
 ```
 
 ---
