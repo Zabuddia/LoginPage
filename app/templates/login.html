@@ -6,9 +6,9 @@
   {{ form.hidden_tag() }}
   
   <label>
-    {{ form.email.label }}
-    {{ form.email(size=32, placeholder="you@example.com") }}
-    {% for e in form.email.errors %}<small>{{ e }}</small>{% endfor %}
+    {{ form.username.label }}
+    {{ form.username(size=32, placeholder="username", autofocus=True) }}
+    {% for e in form.username.errors %}<small>{{ e }}</small>{% endfor %}
   </label>
   
   <label>
