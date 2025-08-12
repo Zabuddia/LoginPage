@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<article>
+  <h2>Admin Dashboard</h2>
+  <p>You have admin powers. Use them wisely. ⚡</p>
+  <p><a href="{{ url_for('auth.logout') }}">Log out</a></p>
+</article>
+{% endblock %}
