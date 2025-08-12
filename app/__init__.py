@@ -30,67 +30,67 @@ def create_app():
 
 	# ---- CLI: create users (no public registration) ----
 	@app.cli.command("create-user")
-	@click.option("--email", prompt=True)
+	@click.option("--username", prompt=True)
 	@click.option("--password", prompt=True, hide_input=True, confirmation_prompt=True)
 	@click.option("--role", type=click.Choice(["user", "admin"]), default="user")
-	def create_user(email, password, role):
+	def create_user(username, password, role):
 		"""Create a user from the command line."""
-		if User.query.filter_by(email=email.lower()).first():
+		if User.query.filter_by(username=username).first():
 			click.echo("User already exists.")
 			return
-		user = User(email=email.lower(), role=role)
+		user = User(username=username, role=role)
 		user.set_password(password)
 		db.session.add(user)
 		db.session.commit()
-		click.echo(f"Created {role} user: {email}")
+		click.echo(f"Created {role} user: {username}")
 
 	@app.cli.command("delete-user")
-	@click.option("--email", prompt=True)
+	@click.option("--username", prompt=True)
 	@click.confirmation_option(prompt="Are you sure you want to delete this user?")
-	def delete_user(email):
-		"""Delete a user by email."""
-		user = User.query.filter_by(email=email.lower()).first()
+	def delete_user(username):
+		"""Delete a user by username."""
+		user = User.query.filter_by(username=username).first()
 		if not user:
-			click.echo("No user found with that email.")
+			click.echo("No user found with that username.")
 			return
 		db.session.delete(user)
 		db.session.commit()
-		click.echo(f"Deleted user: {email}")
+		click.echo(f"Deleted user: {username}")
 
 	@app.cli.command("list-users")
 	def list_users():
 		"""List all users with their roles."""
-		users = User.query.order_by(User.email.asc()).all()
+		users = User.query.order_by(User.username.asc()).all()
 		if not users:
 			click.echo("No users found.")
 			return
 		for u in users:
-			click.echo(f"{u.id}: {u.email}  [{u.role}]")
+			click.echo(f"{u.id}: {u.username}  [{u.role}]")
 
 	@app.cli.command("set-role")
-	@click.option("--email", prompt=True)
+	@click.option("--username", prompt=True)
 	@click.option("--role", type=click.Choice(["user", "admin"]), prompt=True)
-	def set_role(email, role):
+	def set_role(username, role):
 		"""Change a user's role."""
-		user = User.query.filter_by(email=email.lower()).first()
+		user = User.query.filter_by(username=username).first()
 		if not user:
-			click.echo("No user found with that email.")
+			click.echo("No user found with that username.")
 			return
 		user.role = role
 		db.session.commit()
-		click.echo(f"Updated role for {email} → {role}")
+		click.echo(f"Updated role for {username} → {role}")
 
 	@app.cli.command("set-password")
-	@click.option("--email", prompt=True)
+	@click.option("--username", prompt=True)
 	@click.option("--password", prompt=True, hide_input=True, confirmation_prompt=True)
-	def set_password(email, password):
+	def set_password(username, password):
 		"""Reset a user's password."""
-		user = User.query.filter_by(email=email.lower()).first()
+		user = User.query.filter_by(username=username).first()
 		if not user:
-			click.echo("No user found with that email.")
+			click.echo("No user found with that username.")
 			return
 		user.set_password(password)
 		db.session.commit()
-		click.echo(f"Password updated for {email}")
+		click.echo(f"Password updated for {username}")
 
 	return app
